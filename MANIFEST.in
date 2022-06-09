@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include patient_encounter_customisation *.css
+recursive-include patient_encounter_customisation *.csv
+recursive-include patient_encounter_customisation *.html
+recursive-include patient_encounter_customisation *.ico
+recursive-include patient_encounter_customisation *.js
+recursive-include patient_encounter_customisation *.json
+recursive-include patient_encounter_customisation *.md
+recursive-include patient_encounter_customisation *.png
+recursive-include patient_encounter_customisation *.py
+recursive-include patient_encounter_customisation *.svg
+recursive-include patient_encounter_customisation *.txt
+recursive-exclude patient_encounter_customisation *.pyc
