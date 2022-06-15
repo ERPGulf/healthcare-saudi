@@ -27,7 +27,7 @@ app_license = "MIT"
 # webform_include_js = {"doctype": "public/js/doctype.js"}
 # webform_include_css = {"doctype": "public/css/doctype.css"}
 
-# include js in page
+# include js in pageapps
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
@@ -36,7 +36,8 @@ app_license = "MIT"
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 # doctype_js = {"Patient Encounter" : "custom/patient_encounter/patient_encounter.js"}
-doctype_js = {"Patient Encounter" : "patient_encounter_customisation/doctype/healthcare_item/healthcare_item.js"}
+doctype_js = {"Patient Encounter" : "patient_encounter_customisation/doctype/healthcare_item/healthcare_item.js",
+              "Sales Invoice"   :   "patient_encounter_customisation/doctype/healthcare_item/healthcare_item.js"}
 # Home Pages
 # ----------
 
@@ -98,12 +99,16 @@ doctype_js = {"Patient Encounter" : "patient_encounter_customisation/doctype/hea
 
 # doc_events = {
 # 	"*": {
-# 		"on_update": "method",
+# 		"on_update": "method",apps/patient_encounter_customisation/crud_events.py
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
 #	}
 # }
-
+# doc_events = {
+# 	"Sales Invoice": {
+# 		"on_submit" :"patient_encounter_customisation.patient_encounter_customisation.doctype.healthcare_item.healthcare_item.filter_patient"
+# 	}
+# }
 # Scheduled Tasks
 # ---------------
 
