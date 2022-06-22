@@ -39,15 +39,35 @@ frappe.ui.form.on('Healthcare Item', "qty",function(frm,cdt,cdn)
 frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
 {
     let item=locals[cdt][cdn]
+    var item_code=item.item_code
     
-    item.amount=(item.qty)*(item.rate)
-    item.discount_amount=0.0
-    item.discount_amount=item.rate*(item.discount_percentage/100)
+    console.log(item_code)
     
-    item.rate=item.rate-item.discount_amount
-    item.amount=(item.qty)*(item.rate)
-    refresh_field("items")
-    
+    frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+        "doctype": "Item",
+        "filters": {"item_code": item_code},
+        "fieldname": "max_discount"
+        }, callback: function(r) {
+        let max_discount=r.message.max_discount
+        
+        if((item.discount_percentage <= max_discount))
+        {
+            console.log(item.rate)
+            item.amount=(item.qty)*(item.rate)
+            item.discount_amount=0.0
+            item.discount_amount=item.rate*(item.discount_percentage/100)
+            
+            item.rate=item.rate-item.discount_amount
+            item.amount=(item.qty)*(item.rate)
+            refresh_field("items")
+        }
+        else{
+            frappe.msgprint(__('Maximum discount allowed is '+ max_discount));
+        }
+        }});
+
     
 })
 
