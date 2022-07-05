@@ -8,6 +8,8 @@ from erpnext.stock.get_item_details import get_item_details
 
 class HealthcareItem(Document):
 	pass
+
+# get item detail from doctype 'Item'
 @frappe.whitelist()
 def get_item_detail(item_code='Kratom'):
     item_details=[]
@@ -18,6 +20,7 @@ def get_item_detail(item_code='Kratom'):
     item_details.append(item_detail)
     return item_details
 
+# get patients whose status is not invoiced
 @frappe.whitelist()
 def filter_patients(doctype, txt, searchfield, start, page_len, filters):
     date_today=date.today()
@@ -25,12 +28,13 @@ def filter_patients(doctype, txt, searchfield, start, page_len, filters):
     
     return patient_list
 
+# set patient status as invoiced
 @frappe.whitelist()
 def set_patient_status(patient_name):
     status=frappe.db.sql(f"""UPDATE `tabPatient Encounter` SET invoiced=1 WHERE patient='{patient_name}';""")
     return "done"
    
-   
+# gets the items in items table to sales invoice
 @frappe.whitelist()
 def get_items_to_invoice(encounter):
 	encounter = frappe.get_doc("Patient Encounter", encounter)

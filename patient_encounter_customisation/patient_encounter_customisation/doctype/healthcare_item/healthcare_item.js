@@ -1,3 +1,5 @@
+
+// get item details from item doctype
 frappe.ui.form.on('Healthcare Item', "item_code",function(frm,cdt,cdn)
 {
     let item=locals[cdt][cdn]
@@ -26,6 +28,7 @@ frappe.ui.form.on('Healthcare Item', "item_code",function(frm,cdt,cdn)
     }
 })
 
+// Calculate total amount for product 
 frappe.ui.form.on('Healthcare Item', "qty",function(frm,cdt,cdn)
 {
     let item=locals[cdt][cdn]
@@ -36,6 +39,7 @@ frappe.ui.form.on('Healthcare Item', "qty",function(frm,cdt,cdn)
      refresh_field("items")
 })
 
+// Calculate discount and apply them on total amount
 frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
 {
     let item=locals[cdt][cdn]
@@ -71,6 +75,7 @@ frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
     
 })
 
+// Calculate the grand total amount
 frappe.ui.form.on("Healthcare Item", {
         qty:function(frm, cdt, cdn){
         var d = locals[cdt][cdn];
@@ -87,6 +92,9 @@ frappe.ui.form.on("Healthcare Item", {
         refresh_field("grand_total");
             }
         });
+
+
+
 frappe.ui.form.on("Healthcare Item", {
             discount_percentage:function(frm, cdt, cdn){
             var d = locals[cdt][cdn];
@@ -121,6 +129,9 @@ frappe.ui.form.on("Healthcare Item", {
             refresh_field("grand_total");
                 }
             });
+
+
+// filter link field 
 frappe.ui.form.on("Sales Invoice","onload", function(frm){
     
             frm.set_query("patient", function() {
@@ -130,12 +141,16 @@ frappe.ui.form.on("Sales Invoice","onload", function(frm){
                 };
             });
             })
+
+// adds custom button on the sales invoice form to get items from items table
 frappe.ui.form.on("Sales Invoice","refresh", function(frm){
                 if (frappe.boot.active_domains.includes("Healthcare")){
                 frm.add_custom_button(__('Patient Encounter Items'), function() {
                     get_drugs_to_invoice(frm);
                 },__("Fetch items From"));  } 
             })
+
+// to check whether the patient is invoiced
 frappe.ui.form.on("Sales Invoice", {
                 on_submit: function(frm) {
                   var patient_name = frm.doc.patient 
