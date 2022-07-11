@@ -75,7 +75,7 @@ frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
     
 })
 
-// Calculate the grand total amount
+// Calculate the grand total amount when no discount added
 frappe.ui.form.on("Healthcare Item", {
         qty:function(frm, cdt, cdn){
         var d = locals[cdt][cdn];
@@ -94,7 +94,7 @@ frappe.ui.form.on("Healthcare Item", {
         });
 
 
-
+// Calculate the grand total amount when  discount added
 frappe.ui.form.on("Healthcare Item", {
             discount_percentage:function(frm, cdt, cdn){
             var d = locals[cdt][cdn];
