@@ -144,10 +144,10 @@ frappe.ui.form.on("Sales Invoice","onload", function(frm){
 
 // adds custom button on the sales invoice form to get items from items table
 frappe.ui.form.on("Sales Invoice","refresh", function(frm){
-                if (frappe.boot.active_domains.includes("Healthcare")){
+               
                 frm.add_custom_button(__('Patient Encounter Items'), function() {
                     get_drugs_to_invoice(frm);
-                },__("Fetch items From"));  } 
+                },__("Fetch items From"));  
             })
 
 // to check whether the patient is invoiced
