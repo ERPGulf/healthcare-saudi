@@ -11,7 +11,7 @@ class HealthcareItem(Document):
 
 # get item detail from doctype 'Item'
 @frappe.whitelist()
-def get_item_detail(item_code='Kratom'):
+def get_item_detail(item_code):
     item_details=[]
     item_detail=frappe.db.sql(f"""SELECT item_name,stock_uom,valuation_rate,description FROM `tabItem` WHERE item_code='{item_code}';""",as_dict=True)
    
@@ -37,24 +37,30 @@ def set_patient_status(patient_name):
 # gets the items in items table to sales invoice
 @frappe.whitelist()
 def get_items_to_invoice(encounter):
-	encounter = frappe.get_doc("Patient Encounter", encounter)
-	if encounter:
-		patient = frappe.get_doc("Patient", encounter.patient)
-		if patient:
-			if patient.customer:
-				items_to_invoice = []
-				for drug_line in encounter.items:
-					if drug_line.item_code:
-						qty = 1
-						if frappe.db.get_value("Item", drug_line.item_code, "stock_uom") == "Nos":
-							qty = drug_line.qty
+    encounter = frappe.get_doc("Patient Encounter", encounter)
+    if encounter:
+        patient = frappe.get_doc("Patient", encounter.patient)
+        if patient:
+            if patient.customer:
+                items_to_invoice = []
+                for drug_line in encounter.items:
+                    if drug_line.item_code:
+                        qty = 1
+                        if frappe.db.get_value("Item", drug_line.item_code, "stock_uom") == "Nos":
+                            qty = drug_line.qty
 
-						description = drug_line.description
-						
-
-						items_to_invoice.append(
-							{"drug_code": drug_line.item_code, "quantity": qty, "description": description}
+                        description = drug_line.description
+                        amount=drug_line.amount
+                        rate=drug_line.rate
+                        items_to_invoice.append(
+							{"drug_code": drug_line.item_code, "rate": rate, "amount": amount,"qty":drug_line.qty,"discount":drug_line.discount_percentage,"discount_amount":drug_line.discount_amount}
 						)
-				return items_to_invoice
-			else:
-				validate_customer_created(patient)
+                return items_to_invoice
+            else:
+                validate_customer_created(patient)
+
+@frappe.whitelist()
+def get_discount(encounter):
+    status=frappe.db.sql(f"""SELECT  discount_percentage FROM `tabHealthcare Item`  WHERE parent='{encounter}';""")
+    return status
+   
