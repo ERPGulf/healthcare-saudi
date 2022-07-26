@@ -561,6 +561,7 @@ var add_to_item_line = function(frm,checked_values){
         });
       
         frm.refresh_fields("items"); 
+        frm.refresh_fields("total");
             })}
             
            
