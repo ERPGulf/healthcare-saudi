@@ -552,8 +552,9 @@ var add_to_item_line = function(frm,checked_values){
             console.log(i)
             
             d.discount_percentage=checked_values[i]['discount']
-            d.discount_amount=d.rate*(d.discount_percentage/100)
+            d.discount_amount=d.price_list_rate*(d.discount_percentage/100)
             d.rate=checked_values[i]['rate']
+            
             d.amount=checked_values[i]['amount']
             
 
@@ -562,6 +563,7 @@ var add_to_item_line = function(frm,checked_values){
       
         frm.refresh_fields("items"); 
         frm.refresh_fields("total");
+        frm.refresh_fields("taxes");
             })}
             
            
