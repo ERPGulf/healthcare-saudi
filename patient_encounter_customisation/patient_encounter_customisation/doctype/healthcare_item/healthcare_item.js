@@ -27,7 +27,24 @@ frappe.ui.form.on('Healthcare Item', "item_code",function(frm,cdt,cdn)
 	      })
     }
 })
-
+frappe.ui.form.on('Healthcare Item', "margin_rate_or_amount",function(frm,cdt,cdn)
+{
+    let item=locals[cdt][cdn]
+    var item_code=item.item_code
+    item.discount_amount=0.0
+    item.discount_percentage =0.0  
+    console.log(item.rate)
+    item.amount=(item.qty)*(item.rate)
+    item.rate=item.rate - item.margin_rate_or_amount
+    console.log(item.margin_rate_or_amount)
+    item.amount=(item.qty)*(item.rate)
+    refresh_field("items")
+        
+        
+      
+    
+    
+})
 // Calculate total amount for product 
 frappe.ui.form.on('Healthcare Item', "qty",function(frm,cdt,cdn)
 {
@@ -59,10 +76,11 @@ frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
         if((item.discount_percentage <= max_discount))
         {
             // console.log(item.rate)
+            item.margin_rate_or_amount =0.0
             item.amount=(item.qty)*(item.rate)
             item.discount_amount=0.0
             item.discount_amount=item.rate*(item.discount_percentage/100)
-            
+      
             item.rate=item.rate-item.discount_amount
             item.amount=(item.qty)*(item.rate)
             refresh_field("items")
@@ -96,7 +114,14 @@ frappe.ui.form.on("Healthcare Item", {
 
 // Calculate the grand total amount when  discount added
 frappe.ui.form.on("Healthcare Item", {
-            discount_percentage:function(frm, cdt, cdn){
+            discount_percentage :function(frm, cdt, cdn){
+            var d = locals[cdt][cdn];
+            var total = 0;
+            frm.doc.items.forEach(function(d) { total += d.amount; });
+            frm.set_value("grand_total", total);
+            refresh_field("grand_total");
+          },
+          margin_rate_or_amount:function(frm, cdt, cdn){
             var d = locals[cdt][cdn];
             var total = 0;
             frm.doc.items.forEach(function(d) { total += d.amount; });
