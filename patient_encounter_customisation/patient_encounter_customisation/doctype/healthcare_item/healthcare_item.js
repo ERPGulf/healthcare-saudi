@@ -112,7 +112,7 @@ frappe.ui.form.on("Healthcare Item", {
         });
 
 
-// Calculate the grand total amount when  discount added
+// Calculate the grand total amount when  discount added or margin amount varied
 frappe.ui.form.on("Healthcare Item", {
             discount_percentage :function(frm, cdt, cdn){
             var d = locals[cdt][cdn];
