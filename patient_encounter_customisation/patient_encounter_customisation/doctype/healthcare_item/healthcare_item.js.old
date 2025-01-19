@@ -52,7 +52,7 @@ frappe.ui.form.on('Healthcare Item', "qty",function(frm,cdt,cdn)
     
     item.amount=(item.qty)*(item.rate)
     item.discount_amount=0.0
-    console.log("Tester3") 
+    
      refresh_field("items")
 })
 
@@ -76,7 +76,6 @@ frappe.ui.form.on('Healthcare Item', "discount_percentage",function(frm,cdt,cdn)
         if((item.discount_percentage <= max_discount))
         {
             console.log(item.rate)
-	    console.log("testGG")
             //item.margin_rate_or_amount =0.0
             //item.amount=(item.qty)*(item.rate)
             //item.discount_amount=0.0
